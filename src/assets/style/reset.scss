@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+  // 颜色：继承
+}
+ul,
+ol {
+  list-style: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+:focus {
+  outline: none;
+}
+// input框选中的样式

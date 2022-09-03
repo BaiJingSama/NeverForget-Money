@@ -1,7 +1,7 @@
 <template>
     <!-- css重复所以用一个组件全局声明用Vue的插槽 把重要的内容插入进来 -->
     <div class="nav-wrapper">
-        <div class="content">
+        <div class="content" :class="classPrefix && `${classPrefix}-content`">
             <!-- 这个slot标签会被其他组件的Layout标签内的内容替换 -->
             <slot />
         </div>
@@ -13,14 +13,14 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-    name: 'Layout'
+    name: 'Layout',
+    props: ['classPrefix']
 
 })
 </script>
 
 <style lang="scss" scoped>
 .nav-wrapper {
-    border: 1px solid green;
     display: flex;
     flex-direction: column;
     height: 100vh
