@@ -1,5 +1,5 @@
 <template>
-    <svg class="icon">
+    <svg class="icon" @click="$emit('click', $event)">
         <use v-bind:xlink:href="'#' + name" />
         <!-- v-bind绑定把这个属性给外面可以编辑 -->
     </svg>
