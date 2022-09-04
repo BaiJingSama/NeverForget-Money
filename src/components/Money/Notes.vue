@@ -1,8 +1,9 @@
 <template>
     <div>
         <label class="notes">
+
             <span class="name">{{ fieldName }}</span>
-            <input type="text" v-model="value" :placeholder="placeholder">
+            <input type="text" :value="value" @input="onValueChanged($event.target.value)" :placeholder="placeholder">
             <!-- :value="value" @input="oninput" 可以简化成v-model -->
         </label>
     </div>
@@ -14,16 +15,20 @@ import { Component, Prop } from 'vue-property-decorator'
 
 @Component
 export default class Notes extends Vue {
-    value = '';
+    @Prop({ default: '' }) readonly value!: string;
 
     @Prop({ required: true }) fieldName!: string
     @Prop(String) placeholder?: string
+
+    onValueChanged(value: string) {
+        this.$emit('update:value', value)
+    }
 }
 </script>
 
 <style lang="scss" scoped>
 .notes {
-    background: #f5f5f5;
+    // background: #f5f5f5;
     display: block;
     font-size: 14px;
     padding-left: 16px;
@@ -36,7 +41,7 @@ export default class Notes extends Vue {
     }
 
     input {
-        height: 64px;
+        height: 40px;
         flex-grow: 1;
         background: transparent;
         border: none;

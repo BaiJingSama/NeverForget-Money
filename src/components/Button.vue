@@ -1,7 +1,7 @@
 <template>
 
 
-  <button class="button" >
+  <button class="button" @click="$emit('click', $event)">
     <!-- 如果这个button被点击了就触发外面的click事件，把event参数传出去 -->
     <slot />
   </button>

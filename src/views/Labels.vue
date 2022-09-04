@@ -2,13 +2,13 @@
     <Layout>
         <div class="tags">
             <router-link class="tag" v-for="tag in tags" :key="tag.id" :to="`/labels/edit/${tag.id}`">
-                <span>{{ tag.name }}</span>
+                <span class="tag-name">{{ tag.name }}</span>
                 <Icon name="right" />
             </router-link>
         </div>
         <div class="createTag-wrapper">
-            <Button class="createTag">新建标签</Button>
-            <!-- @click.native="createTag" 这样写可以监听组件默认的事件-->
+            <Button class="createTag" @click="createTag">新建标签</Button>
+            <!-- @click.native="createTag" -->
         </div>
     </Layout>
 </template>
@@ -52,6 +52,9 @@ export default class Labels extends Vue {
         justify-content: space-between;
         border-bottom: 1px solid #e6e6e6;
         font-weight: 500;
+        color: skyblue;
+        font-weight: 700;
+        font-size: 16px;
     }
 
     svg {
