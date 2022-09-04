@@ -6,7 +6,7 @@
       <span class="rightIcon"></span>
     </div>
     <div class="from-wrapper">
-      <Notes fieldName="标签名" placeholder="请输入标签名" />
+      <Notes :value="tag.name" fieldName="标签名" placeholder="请输入标签名" />
     </div>
     <div class="button-wrapper">
       <Button>删除标签</Button>
@@ -28,7 +28,7 @@ import Button from '@/components/Button.vue'
   components: { Notes, Icon, Button }
 })
 export default class EditLabel extends Vue {
-
+  tag?: { id: string, name: string } = undefined
 
   created() {
     const id = this.$route.params.id
@@ -36,7 +36,7 @@ export default class EditLabel extends Vue {
     const tags = tagListModel.data
     const tag = tags.filter(t => t.id === id)[0]
     if (tag) {
-      console.log(tag);
+      this.tag = tag
     } else {
       //一般跳转到404都是用replace不用push
       this.$router.replace('/404')
