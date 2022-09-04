@@ -1,3 +1,5 @@
+import createId from "@/lib/createId";
+
 const localStorageKeyName = "tagList";
 type Tag = {
   id: string;
@@ -27,7 +29,8 @@ const tagListModel: TagListModel = {
     } else if (names.length >= 8) {
       return "创建的标签名大于8个字符，创建失败";
     }
-    this.data.push({ id: name, name: name });
+    const id = createId().toString();
+    this.data.push({ id, name: name });
     this.save();
     return "创建" + name + "标签成功！";
   },
