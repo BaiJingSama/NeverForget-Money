@@ -22,7 +22,7 @@ import recordListModel from '@/models/recordList'
 import tagListModel from '@/models/tagList'
 
 const recordList = recordListModel.fetch()
-const tagList = tagListModel.fetch()
+
 
 
 
@@ -32,7 +32,7 @@ const tagList = tagListModel.fetch()
 })
 
 export default class Money extends Vue {
-    tags = tagList
+    tags = window.tagList
     recordList: RecordItem[] = recordList
     record: RecordItem = {
         tags: [],

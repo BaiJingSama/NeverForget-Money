@@ -17,7 +17,7 @@ import { Component, Prop } from 'vue-property-decorator'
 @Component
 
 export default class Tags extends Vue {
-    @Prop(Array) dataSource: string[] | undefined;
+    @Prop(Array) readonly dataSource: string[] | undefined;
     selectedTags: string[] = []
     toggle(tag: string) {
         const index = this.selectedTags.indexOf(tag)
