@@ -27,7 +27,9 @@ import store from '@/store/index2';
 })
 
 export default class Labels extends Vue {
-    tags = store.tagList;
+    // TODO
+    tags = []
+    // tags = store.tagList;
 
     // 知识点1：读的时候去window读
     // 知识点2：写的时候要用tagListModel写
@@ -36,7 +38,8 @@ export default class Labels extends Vue {
     createTag() {
         const name = window.prompt('请输入标签名，不要超过8个字符')
         if (name) {
-            store.createTag(name)
+            // TODO
+            // store.createTag(name)
         }
     }
 }

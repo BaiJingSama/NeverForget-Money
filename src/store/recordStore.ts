@@ -21,8 +21,6 @@ const recordStore = {
     const record2: RecordItem = clone(record);
     record2.createdAt = new Date();
     this.recordList?.push(record2);
-    // ES2020 等同于this.recordList && this.recordList.push()
-    // 可选链语法 
     recordStore.saveRecords();
   },
 };
