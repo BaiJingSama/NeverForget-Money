@@ -19,11 +19,8 @@ import NumberPad from '@/components/Money/NumberPad.vue'
 import Notes from '@/components/Money/Notes.vue'
 import { Component, Watch } from 'vue-property-decorator'
 import recordListModel from '@/models/recordList'
-import tagListModel from '@/models/tagList'
 
 const recordList = recordListModel.fetch()
-
-
 
 
 

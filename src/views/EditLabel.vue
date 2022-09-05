@@ -18,42 +18,40 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
-import tagListModel from '@/models/tagList'
-import Icon from '@/components/Icon.vue'
 import Notes from '@/components/Money/Notes.vue'
 import Button from '@/components/Button.vue'
 
 
 @Component({
-  components: { Notes, Icon, Button }
+  components: { Notes, Button }
 })
 export default class EditLabel extends Vue {
-  tag?: { id: string, name: string } = undefined
+  // eslint-disable-next-line no-undef
+  tag?: Tag = undefined
 
   created() {
-    const id = this.$route.params.id
-    tagListModel.fetch()
-    const tags = tagListModel.data
-    const tag = tags.filter(t => t.id === id)[0]
-    if (tag) {
-      this.tag = tag
-    } else {
+    this.tag = window.findTag(this.$route.params.id)
+    if (!this.tag) {
       //一般跳转到404都是用replace不用push
       this.$router.replace('/404')
     }
+
+
   }
 
   update(name: string) {
     if (this.tag) {
-      tagListModel.update(this.tag?.id, name)
+      window.updateTag(this.tag.id, name)
     }
   }
 
   remove() {
     if (this.tag) {
-      if (tagListModel.remove(this.tag.id)) {
+      if (window.removeTag(this.tag.id)) {
         window.alert('删除成功')
         this.$router.back()
+      } else {
+        window.alert('删除失败')
       }
 
     }
