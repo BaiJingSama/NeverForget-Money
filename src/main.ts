@@ -6,7 +6,7 @@ import store from "./store";
 import Nav from "@/components/Nav.vue";
 import Layout from "@/components/Layout.vue";
 import Icon from "@/components/Icon.vue";
-import tagList from "./models/tagList";
+import tagListModel from "./models/tagList";
 
 Vue.config.productionTip = false;
 
@@ -14,8 +14,11 @@ Vue.component("Nav", Nav);
 Vue.component("Layout", Layout);
 Vue.component("Icon", Icon);
 
-
-window.tagList = tagList.fetch()
+window.tagList = tagListModel.fetch();
+window.createTag = (name: string) => {
+  const success = tagListModel.create(name);
+  window.alert(success);
+};
 
 new Vue({
   router,

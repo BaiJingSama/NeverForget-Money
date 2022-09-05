@@ -29,11 +29,14 @@ import Button from '@/components/Button.vue'
 export default class Labels extends Vue {
     tags = window.tagList;
 
+    // 知识点1：读的时候去window读
+    // 知识点2：写的时候要用tagListModel写
+    // 最小知识原则：简化，不需要咋tagListModel写
+
     createTag() {
         const name = window.prompt('请输入标签名，不要超过8个字符')
         if (name) {
-            const success = tagListModel.create(name)
-            window.alert(success)
+            window.createTag(name)
         }
     }
 }
