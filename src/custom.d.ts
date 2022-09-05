@@ -20,10 +20,15 @@ type TagListModel = {
   save: () => void;
 };
 
-interface Window {
-  tagList: Tag[];
-  createTag: (name: string) => void;
-  findTag: (id: string) => Tag;
-  removeTag: (id: string) => boolean;
-  updateTag: (id: string, name: string) => "success" | "没找到" | "名字重复";
+/* interface Window {
+  store: {
+    tagList: Tag[];
+    createTag: (name: string) => void;
+    findTag: (id: string) => Tag;
+    removeTag: (id: string) => boolean;
+    updateTag: (id: string, name: string) => "success" | "没找到" | "名字重复";
+    recordList: RecordItem[];
+    createRecord: (record: RecordItem) => void;
+  };
 }
+ */
