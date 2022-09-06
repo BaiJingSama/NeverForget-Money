@@ -12,7 +12,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Types from '@/components/Money/Types.vue'
 import { Component } from 'vue-property-decorator'
 import Tabs from '../components/Tabs.vue'
 import intervalList from '@/constants/intervalList'
@@ -20,7 +19,6 @@ import typeList from '@/constants/typeList'
 
 @Component({
     components: {
-        Types,
         Tabs
     }
 })
@@ -39,12 +37,24 @@ export default class Statistics extends Vue {
     background: white;
 
     &.selected {
-        background: skyblue;
+        background: #6da4ca;
+        ;
         color: white;
 
         &::after {
             display: none;
         }
+    }
+}
+
+::v-deep li.interval-tabs-item {
+    font-size: 18px;
+    height: 48px;
+    background: #8abdd2;
+    color: white;
+
+    &::after {
+        // color: white;
     }
 }
 </style>
