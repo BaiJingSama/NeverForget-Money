@@ -23,15 +23,13 @@ import Button from '@/components/Button.vue'
 
 @Component({
     components: { Button },
-    computed: {
-        tags() {
-            return this.$store.state.tagList
-        }
-    }
 })
 
 export default class Labels extends Vue {
 
+    get tags() {
+        return this.$store.state.tagList
+    }
 
     // 知识点1：读的时候去window读
     // 知识点2：写的时候要用tagListModel写
@@ -46,7 +44,7 @@ export default class Labels extends Vue {
             return window.alert('标签名不能为空')
         }
         else if (this.$store.state.tagList) {
-          this.$store.commit('createTag', name)
+            this.$store.commit('createTag', name)
 
         }
     }

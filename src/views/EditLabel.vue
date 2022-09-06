@@ -23,22 +23,23 @@ import Button from '@/components/Button.vue'
 
 
 @Component({
-  components: { Notes, Button }
+  components: { Notes, Button },
+
 })
 export default class EditLabel extends Vue {
   // eslint-disable-next-line no-undef
-  tag?: Tag = undefined
+  get tag() {
+    return this.$store.state.currentTag
+  }
+
 
   created() {
-    // this.tag = {}
-    // TODO
-    // store.findTag(this.$route.params.id)
+    const id = this.$route.params.id
+    this.$store.commit('setCurrentTag', id)
     if (!this.tag) {
       //一般跳转到404都是用replace不用push
       this.$router.replace('/404')
     }
-
-
   }
 
   update(name: string) {
