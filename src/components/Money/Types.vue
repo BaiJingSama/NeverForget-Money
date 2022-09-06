@@ -3,8 +3,10 @@
 <template>
     <div>
         <ul class="types">
-            <li :class="value === '-' && 'selected'" @click="selectType('-')">支出</li>
-            <li :class="value === '+' && 'selected'" @click="selectType('+')">收入</li>
+            <li :class="{ [classPrefix + '-item']: classPrefix, selected: value === '-' }" @click="selectType('-')">支出
+            </li>
+            <li :class="{ [classPrefix + '-item']: classPrefix, selected: value === '+' }" @click="selectType('+')">收入
+            </li>
         </ul>
     </div>
 </template>
@@ -12,7 +14,7 @@
 <script lang="ts">
 
 import Vue from 'vue'
-import { Component, Prop, Watch } from 'vue-property-decorator'
+import { Component, Prop } from 'vue-property-decorator'
 // 必须从这里引入
 
 
@@ -29,6 +31,7 @@ export default class Types extends Vue {
     // @Prop的类型是告诉vue 这个属性是Number类型
     // xxx的类型是告诉ts 这个属性是Number或undefined类型
 
+    @Prop(String) classPrefix?: string
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     selectType(value: string) { // type只能是'-' 或 '+'的其中一个
         /* if (type !== '-' && type !== '+') {
