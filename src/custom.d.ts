@@ -5,7 +5,8 @@ type RootState = {
 };
 
 type RecordItem = {
-  tags: string[];
+[x: string]: any;
+  tags: Tag[];
   notes: string;
   type: string;
   amount: number; // 数据类型
