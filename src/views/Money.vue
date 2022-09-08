@@ -4,9 +4,9 @@
             <NumberPad :value.sync="record.amount" @submit="saveRecord" />
             <Tabs :data-source="typeList" :value.sync=record.type />
             <div class="notes-bar">
-                <Notes @update:value="onUpdateNotes" field-name="备注" placeholder="请输入内容" />
+                <Notes :value.sync="record.notes" field-name="备注" placeholder="请输入内容" />
             </div>
-            <Tags />
+            <Tags :value.sync="record.tags" />
         </layout>
     </div>
 </template>
@@ -50,7 +50,17 @@ export default class Money extends Vue {
     }
 
     saveRecord() {
+        if (!this.record.tags || this.record.tags.length === 0) {
+            return window.alert('请至少选择一个标签')
+
+        }
         this.$store.commit('createRecord', this.record)
+        if (this.$store.state.createRecordError === null) {
+            window.alert('记账成功')
+            this.record.notes = '';
+            this.record.tags = [];
+        }
+
     }
 
 }
