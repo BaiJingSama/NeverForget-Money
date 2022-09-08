@@ -2,6 +2,8 @@
 const path = require("path");
 
 module.exports = {
+  publicPath:
+    process.env.NODE_ENV === "production" ? "/NeverForget-Money-webSite/" : "/",
   lintOnSave: false,
   chainWebpack: (config) => {
     const dir = path.resolve(__dirname, "src/assets/icons");
