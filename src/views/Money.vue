@@ -2,11 +2,11 @@
     <div>
         <layout class-prefix="layout">
             <NumberPad :value.sync="record.amount" @submit="saveRecord" />
-            <Tabs :data-source="typeList" :value.sync=record.type />
             <div class="notes-bar">
                 <Notes :value.sync="record.notes" field-name="备注" placeholder="请输入内容" />
             </div>
-            <Tags :value.sync="record.tags" />
+            <Tags :value.sync="record.newTag" />
+            <Tabs :data-source="typeList" :value.sync=record.type class-prefix="forget" />
         </layout>
     </div>
 </template>
@@ -28,6 +28,7 @@ import typeList from '@/constants/typeList'
 export default class Money extends Vue {
     record: RecordItem = {
         tags: [],
+        newTag: [],
         notes: '',
         type: '-',
         amount: 0
@@ -50,7 +51,7 @@ export default class Money extends Vue {
     }
 
     saveRecord() {
-        if (!this.record.tags || this.record.tags.length === 0) {
+        if (!this.record.newTag || this.record.newTag.length === 0) {
             return window.alert('请至少选择一个标签')
 
         }
@@ -58,7 +59,7 @@ export default class Money extends Vue {
         if (this.$store.state.createRecordError === null) {
             window.alert('记账成功')
             this.record.notes = '';
-            this.record.tags = [];
+            this.record.newTag = [];
         }
 
     }
@@ -79,4 +80,18 @@ export default class Money extends Vue {
 
 <style lang="scss" scoped>
 @import "@/assets/style/helper.scss";
+
+::v-deep .forget-tabs-item {
+    background: white;
+
+    &.selected {
+        background: #6da4ca;
+        ;
+        color: white;
+
+        &::after {
+            display: none;
+        }
+    }
+}
 </style>

@@ -6,7 +6,7 @@
                 <h3 class="title">{{ beautify(group.title) }} <span>￥{{ group.total }}</span> </h3>
                 <ol>
                     <li class="record" v-for="item in group.items" :key="item.id">
-                        <span>{{ tagString(item.tags) }}</span>
+                        <span>{{ tagString(item.newTag) }}</span>
                         <span class="notes" :style="{ marginRight: 'auto' }">{{ item.notes }}</span>
                         <span>￥{{ item.amount }}</span>
                     </li>
@@ -31,6 +31,11 @@ import clone from '@/lib/clone'
 type Tag = {
     id: string;
     name: string;
+};
+
+type newTag = {
+    name: string;
+    value: string;
 };
 
 type RootState = {
@@ -84,8 +89,8 @@ export default class Statistics extends Vue {
         return result
     }
 
-    tagString(tags: Tag[]) {
-        return tags.length === 0 ? '无' : tags.map(t => t.name).join('，')
+    tagString(tags: newTag[]) {
+        return tags.length === 0 ? '无' : tags.map(t => t.value).join('，')
     }
 
     beautify(string: string) {

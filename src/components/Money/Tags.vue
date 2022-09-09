@@ -1,11 +1,23 @@
 <template>
     <div class="tags">
         <div class="new">
-            <button @click="create">新增标签</button>
+            <!-- <button @click="create">新增标签</button> -->
         </div>
         <ul class="current">
-            <li v-for="tag in tagList" :key="tag.id" :class="{ selector: selectedTags.indexOf(tag) >= 0 }"
-                @click="toggle(tag)">{{ tag.name }}</li>
+            <li v-for="tag in newTagList" :key="tag.name" @click="toggle(tag)">
+                <div class="iconBox" :class="{ selector: selectedTags.indexOf(tag) >= 0 }">
+                    <icon :name="tag.name"></icon>
+                </div>
+                <span class="tagBox" :class="{ selector: selectedTags.indexOf(tag) >= 0 }">{{ tag.value }}</span>
+            </li>
+            <li>
+                <router-link class="router" to="/createTags">
+                    <div class="iconBox">
+                        <icon name="set"></icon>
+                    </div>
+                    <span class="tagBox">标签管理</span>
+                </router-link>
+            </li>
         </ul>
     </div>
 </template>
@@ -18,7 +30,7 @@ import { Component, } from 'vue-property-decorator'
 })
 
 export default class Tags extends Vue {
-    get tagList() {
+    get newTagList() {
         return this.$store.state.tagList
     }
 
@@ -27,6 +39,7 @@ export default class Tags extends Vue {
 
     created() {
         this.$store.commit('fetchTags')
+        console.log(this.$store.state.tagList);
     }
     toggle(tag: string) {
         const index = this.selectedTags.indexOf(tag)
@@ -59,34 +72,84 @@ export default class Tags extends Vue {
     font-size: 14px;
     padding: 16px;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     flex-grow: 1;
 
 
+
+
     >.current {
+        // padding: 16px;
         // tags里面的current
         display: flex;
         flex-wrap: wrap;
+        overflow: auto;
+        max-height: 38vh;
 
         >li {
             $bg: #d9d9d9;
-            background: $bg;
-            $h: 24px;
-            height: $h;
-            border-radius: $h/2;
-            padding: 0 18px;
-            margin-right: 12px;
-            margin-top: 10px;
-            // line-height: $h;
-            // 确定只有一行字的时候才能用line-height来居中
+            padding-top: 12px 0;
+            width: 25%;
             display: flex;
+            flex-direction: column;
+            align-content: center;
             align-items: center;
+            // margin-right: 10px;
 
-            &.selector {
-                background: darken($bg, 50%);
-                color: #fff;
+
+
+            >.iconBox {
+                // background: #999;
+                border-radius: 50%;
+                width: 45px;
+                height: 45px;
+                // line-height: 40px; // padding: 8px 0;
+                font-size: 40px;
+                text-align: center;
+
+
+                &.selector {
+                    background: #6da4ca;
+                    color: #fff;
+                }
+            }
+
+            >.tagBox {
+                padding: 8px 0;
+                text-align: center;
+                font-size: 16px;
+
+                &.selector {
+                    color: #6da4ca;
+                }
+            }
+
+            >.router {
+                display: flex;
+                flex-direction: column;
+                align-content: center;
+                align-items: center;
+
+                >.iconBox {
+                    // background: #999;
+                    border-radius: 50%;
+                    width: 45px;
+                    height: 45px;
+                    // line-height: 40px; // padding: 8px 0;
+                    font-size: 40px;
+                    text-align: center;
+                    color: #6da4ca;
+                }
+
+                >.tagBox {
+                    padding: 8px 0;
+                    text-align: center;
+                    font-size: 16px;
+                    color: #6da4ca;
+                }
             }
         }
+
     }
 
     >.new {

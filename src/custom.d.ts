@@ -7,6 +7,7 @@ type RootState = {
 
 type RecordItem = {
   tags: Tag[];
+  newTag: newTag[];
   notes: string;
   type: string;
   amount: number; // 数据类型
@@ -16,6 +17,11 @@ type RecordItem = {
 type Tag = {
   id: string;
   name: string;
+};
+
+type newTag = {
+  name: string;
+  value: string;
 };
 
 type TagListModel = {

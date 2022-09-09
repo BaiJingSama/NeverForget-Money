@@ -85,7 +85,7 @@ export default class NumberPad extends Vue {
         font-size: 36px;
         font-family: Consolas, monospace;
         // monospace 是编程字体 等宽的
-        padding: 9px 16px;
+        padding: 3px 16px;
         text-align: right;
 
         // box-shadow: inset 0 -5px 5px -5px fade_out(black, .5),

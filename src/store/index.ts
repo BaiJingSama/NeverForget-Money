@@ -9,6 +9,7 @@ type RootState = {
   recordList: RecordItem[];
   tagList: Tag[];
   currentTag?: Tag;
+  newTagList: newTag[];
 };
 
 const store = new Vuex.Store({
@@ -17,6 +18,7 @@ const store = new Vuex.Store({
     createRecordError: null,
     tagList: [],
     currentTag: undefined,
+    newTagList: [],
   } as RootState,
   mutations: {
     setCurrentTag(state, id: string) {
@@ -43,6 +45,9 @@ const store = new Vuex.Store({
       state.tagList = JSON.parse(
         window.localStorage.getItem("tagList") || "[]"
       );
+      state.tagList = JSON.parse(
+        window.localStorage.getItem("newTagList") || "[]"
+      );
       if (!state.tagList || state.tagList.length === 0) {
         store.commit("initTag", "衣");
         store.commit("initTag", "食");
@@ -54,7 +59,7 @@ const store = new Vuex.Store({
       const names = state.tagList.map((item) => item.name);
       if (names.indexOf(name) >= 0) {
         window.alert("标签名已存在");
-      } else if (names.length >= 8) {
+      } else if (name.length >= 8) {
         window.alert("创建的标签名大于8个字符，创建失败");
       } else {
         const id = createId().toString();
@@ -65,6 +70,10 @@ const store = new Vuex.Store({
     },
     saveTags(state) {
       window.localStorage.setItem("tagList", JSON.stringify(state.tagList));
+      window.localStorage.setItem(
+        "newTagList",
+        JSON.stringify(state.newTagList)
+      );
     },
     updateTag(state, payload: { id: string; name: string }) {
       const { id, name } = payload;
@@ -96,6 +105,16 @@ const store = new Vuex.Store({
       const id = createId().toString();
       state.tagList.push({ id, name: name });
       store.commit("saveTags");
+    },
+    addTag(state, payload: { name: string; value: string }) {
+      const { name, value } = payload;
+      const nameList = state.newTagList.map((item) => item.name);
+      if (nameList.indexOf(name) >= 0) {
+        window.alert("标签已经选择过了");
+      } else {
+        state.newTagList.push({ name: name, value: value });
+        store.commit("saveTags");
+      }
     },
   },
 });

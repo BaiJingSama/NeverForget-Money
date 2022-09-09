@@ -29,7 +29,7 @@ export default class Tabs extends Vue {
     }
   }
 
-  select(item: DataSourceItem) { 
+  select(item: DataSourceItem) {
     this.$emit('update:value', item.value)
   }
 }
@@ -44,7 +44,7 @@ export default class Tabs extends Vue {
 
   >li {
     width: 50%;
-    height: 64px;
+    height: 48px;
     display: flex;
     justify-content: center;
     align-items: center;

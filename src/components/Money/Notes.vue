@@ -34,6 +34,7 @@ export default class Notes extends Vue {
     padding-left: 16px;
     display: flex;
     align-items: center;
+    
 
     .name {
         padding-right: 16px;
@@ -41,7 +42,7 @@ export default class Notes extends Vue {
     }
 
     input {
-        height: 40px;
+        height: 20px;
         flex-grow: 1;
         background: transparent;
         border: none;
