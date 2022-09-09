@@ -5,7 +5,7 @@
             <li v-for="(group, index) in groupedList" :key="index">
                 <h3 class="title">{{ beautify(group.title) }} <span>￥{{ group.total }}</span> </h3>
                 <ol>
-                    <li class="record" v-for="item in group.items" :key="item.id">
+                    <li class="record" v-for="item in group.items" :key="item">
                         <span>{{ tagString(item.newTag) }}</span>
                         <span class="notes" :style="{ marginRight: 'auto' }">{{ item.notes }}</span>
                         <span>￥{{ item.amount }}</span>
@@ -27,7 +27,6 @@ import typeList from '@/constants/typeList'
 import dayjs from 'dayjs'
 import clone from '@/lib/clone'
 
-
 type Tag = {
     id: string;
     name: string;
@@ -42,6 +41,7 @@ type RootState = {
     recordList: RecordItem[];
     tagList: Tag[];
     currentTag?: Tag;
+    newTagList: newTag[];
 };
 
 @Component({
@@ -83,14 +83,17 @@ export default class Statistics extends Vue {
                 result.push({ title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current] })
             }
         }
-        const x = result.map(group => {
+        result.map(group => {
             group.total = group.items.reduce((sum, item) => sum + item.amount, 0)
         })
         return result
     }
 
+    // eslint-disable-next-line no-undef
     tagString(tags: newTag[]) {
-        return tags.length === 0 ? '无' : tags.map(t => t.value).join('，')
+        if (tags) {
+            return tags.length === 0 ? '无' : tags.map(t => t.value).join('，')
+        }
     }
 
     beautify(string: string) {

@@ -1,9 +1,9 @@
 <template>
     <div class="tags">
-        <div class="new">
-            <!-- <button @click="create">新增标签</button> -->
-        </div>
-        <ul class="current">
+        <!-- <div class="new">
+            <button @click="create">新增标签</button>
+        </div> -->
+        <ul v-if="type === '-'" class="current">
             <li v-for="tag in newTagList" :key="tag.name" @click="toggle(tag)">
                 <div class="iconBox" :class="{ selector: selectedTags.indexOf(tag) >= 0 }">
                     <icon :name="tag.name"></icon>
@@ -19,28 +19,44 @@
                 </router-link>
             </li>
         </ul>
+        <ul v-else class="current">
+            <li v-for="tag in incomeList" :key="tag.name" @click="toggle(tag)">
+                <div class="iconBox" :class="{ selector: selectedTags.indexOf(tag) >= 0 }">
+                    <icon :name="tag.name"></icon>
+                </div>
+                <span class="tagBox" :class="{ selector: selectedTags.indexOf(tag) >= 0 }">{{ tag.value }}</span>
+            </li>
+        </ul>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { Component, } from 'vue-property-decorator'
+import { Component, Prop } from 'vue-property-decorator'
+import incomeList from '@/constants/incomeList'
 
 @Component({
 })
 
+
 export default class Tags extends Vue {
+    
+
+    incomeList = incomeList[0].tags
+
     get newTagList() {
         return this.$store.state.tagList
     }
 
 
+
+    @Prop(String) type?: string = '-'
     selectedTags: string[] = []
 
     created() {
         this.$store.commit('fetchTags')
-        console.log(this.$store.state.tagList);
     }
+
     toggle(tag: string) {
         const index = this.selectedTags.indexOf(tag)
         if (index >= 0) {
@@ -52,15 +68,15 @@ export default class Tags extends Vue {
         this.$emit('update:value', this.selectedTags)
     }
 
-    create() {
-        const name = window.prompt('请输入标签名')
-        if (!name) {
-            return window.alert('标签名不能为空')
-        }
-        else if (this.$store.state.tagList) {
-            this.$store.commit('createTag', name)
-        }
-    }
+    /*     create() {
+            const name = window.prompt('请输入标签名')
+            if (!name) {
+                return window.alert('标签名不能为空')
+            }
+            else if (this.$store.state.tagList) {
+                this.$store.commit('createTag', name)
+            }
+        } */
 
 }
 
@@ -71,6 +87,7 @@ export default class Tags extends Vue {
     background: white;
     font-size: 14px;
     padding: 16px;
+    padding-top: 32px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;

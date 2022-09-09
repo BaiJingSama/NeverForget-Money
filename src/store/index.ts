@@ -114,6 +114,7 @@ const store = new Vuex.Store({
       } else {
         state.newTagList.push({ name: name, value: value });
         store.commit("saveTags");
+        window.alert("标签添加成功");
       }
     },
   },

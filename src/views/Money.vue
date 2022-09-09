@@ -5,7 +5,7 @@
             <div class="notes-bar">
                 <Notes :value.sync="record.notes" field-name="备注" placeholder="请输入内容" />
             </div>
-            <Tags :value.sync="record.newTag" />
+            <Tags :value.sync="record.newTag" :type="record.type" />
             <Tabs :data-source="typeList" :value.sync=record.type class-prefix="forget" />
         </layout>
     </div>
@@ -55,6 +55,7 @@ export default class Money extends Vue {
             return window.alert('请至少选择一个标签')
 
         }
+        console.log(this.record);
         this.$store.commit('createRecord', this.record)
         if (this.$store.state.createRecordError === null) {
             window.alert('记账成功')

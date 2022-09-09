@@ -4,7 +4,6 @@
       <router-link to="/money">
         <icon name="left" class="title-icon"></icon>
       </router-link>
-
       <span class="title-left">添加支出类别</span>
       <span class="title-width" @click=createTags()>完成</span>
     </div>
