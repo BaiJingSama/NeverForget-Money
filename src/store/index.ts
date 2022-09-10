@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import clone from "@/lib/clone";
 import createId from "@/lib/createId";
+import router from "@/router";
 
 Vue.use(Vuex);
 
@@ -10,6 +11,7 @@ type RootState = {
   tagList: Tag[];
   currentTag?: Tag;
   newTagList: newTag[];
+  incomeList: newTag[];
 };
 
 const store = new Vuex.Store({
@@ -19,6 +21,7 @@ const store = new Vuex.Store({
     tagList: [],
     currentTag: undefined,
     newTagList: [],
+    incomeList: [],
   } as RootState,
   mutations: {
     setCurrentTag(state, id: string) {
@@ -42,18 +45,9 @@ const store = new Vuex.Store({
       );
     },
     fetchTags(state) {
-      state.tagList = JSON.parse(
-        window.localStorage.getItem("tagList") || "[]"
-      );
-      state.tagList = JSON.parse(
+      state.newTagList = JSON.parse(
         window.localStorage.getItem("newTagList") || "[]"
       );
-      if (!state.tagList || state.tagList.length === 0) {
-        store.commit("initTag", "衣");
-        store.commit("initTag", "食");
-        store.commit("initTag", "住");
-        store.commit("initTag", "行");
-      }
     },
     createTag(state, name: string) {
       const names = state.tagList.map((item) => item.name);
@@ -69,7 +63,7 @@ const store = new Vuex.Store({
       }
     },
     saveTags(state) {
-      window.localStorage.setItem("tagList", JSON.stringify(state.tagList));
+      /*   window.localStorage.setItem("tagList", JSON.stringify(state.tagList)); */
       window.localStorage.setItem(
         "newTagList",
         JSON.stringify(state.newTagList)
@@ -115,6 +109,7 @@ const store = new Vuex.Store({
         state.newTagList.push({ name: name, value: value });
         store.commit("saveTags");
         window.alert("标签添加成功");
+        router.replace("/money");
       }
     },
   },

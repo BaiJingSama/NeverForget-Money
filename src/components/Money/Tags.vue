@@ -35,19 +35,15 @@ import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
 import incomeList from '@/constants/incomeList'
 
+
 @Component({
 })
 
 
 export default class Tags extends Vue {
-    
+
 
     incomeList = incomeList[0].tags
-
-    get newTagList() {
-        return this.$store.state.tagList
-    }
-
 
 
     @Prop(String) type?: string = '-'
@@ -55,6 +51,10 @@ export default class Tags extends Vue {
 
     created() {
         this.$store.commit('fetchTags')
+    }
+
+    get newTagList() {
+        return this.$store.state.newTagList
     }
 
     toggle(tag: string) {
@@ -68,15 +68,7 @@ export default class Tags extends Vue {
         this.$emit('update:value', this.selectedTags)
     }
 
-    /*     create() {
-            const name = window.prompt('请输入标签名')
-            if (!name) {
-                return window.alert('标签名不能为空')
-            }
-            else if (this.$store.state.tagList) {
-                this.$store.commit('createTag', name)
-            }
-        } */
+
 
 }
 

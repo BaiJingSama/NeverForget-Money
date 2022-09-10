@@ -1,6 +1,8 @@
 <template>
   <div>
-    chart页面
+    <Layout>
+      charts页面
+    </Layout>
   </div>
 </template>
 
@@ -10,7 +12,7 @@ import { Component } from 'vue-property-decorator'
 
 @Component
 
-export default class Chart extends Vue {
+export default class Charts extends Vue {
 
 }
 </script>

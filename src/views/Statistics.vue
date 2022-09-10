@@ -3,12 +3,16 @@
         <Tabs class-prefix="type" :data-source="typeList" :value.sync="type" />
         <ol v-if="groupedList.length > 0">
             <li v-for="(group, index) in groupedList" :key="index">
-                <h3 class="title">{{ beautify(group.title) }} <span>￥{{ group.total }}</span> </h3>
+                <h3 class="title">{{ beautify(group.title) }}
+                    <span class="title-text" v-for="item in group.items" :key="item.type"> {{ showType(item.type) }}￥{{
+                            group.total
+                    }}</span>
+                </h3>
                 <ol>
-                    <li class="record" v-for="item in group.items" :key="item">
+                    <li class="record" v-for="item in group.items" :key="item.type">
                         <span>{{ tagString(item.newTag) }}</span>
                         <span class="notes" :style="{ marginRight: 'auto' }">{{ item.notes }}</span>
-                        <span>￥{{ item.amount }}</span>
+                        <span> ￥{{ item.amount }}</span>
                     </li>
                 </ol>
             </li>
@@ -69,6 +73,7 @@ export default class Statistics extends Vue {
             .sort((a, b) => dayjs(b.createdAt)
                 .valueOf() - dayjs(a.createdAt).valueOf())
 
+
         if (newList.length === 0) { return [] as Result }
         type Result = { title: string, total?: number, items: RecordItem[] }[]
         const result: Result = [{ title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]] }]
@@ -122,6 +127,11 @@ export default class Statistics extends Vue {
         } return string */
     }
 
+
+    showType(type: string) {
+        return type === '-' ? '共支出：' : '共收入：'
+    }
+
 }
 </script>
 
@@ -169,8 +179,13 @@ export default class Statistics extends Vue {
 
 .title {
     @extend %item;
-    font-size: 20px;
+    font-size: 22px;
     color: skyblue;
+
+    >.title-text {
+        font-size: 18px;
+        color: skyblue;
+    }
 }
 
 .record {
