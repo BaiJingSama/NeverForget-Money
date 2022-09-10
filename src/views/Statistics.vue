@@ -4,12 +4,10 @@
         <ol v-if="groupedList.length > 0">
             <li v-for="(group, index) in groupedList" :key="index">
                 <h3 class="title">{{ beautify(group.title) }}
-                    <span class="title-text" v-for="item in group.items" :key="item.type"> {{ showType(item.type) }}￥{{
-                            group.total
-                    }}</span>
+                    <span class="title-text"> ￥{{ group.total }}</span>
                 </h3>
                 <ol>
-                    <li class="record" v-for="item in group.items" :key="item.type">
+                    <li class="record" v-for="item in group.items" :key="item.createdAt">
                         <span>{{ tagString(item.newTag) }}</span>
                         <span class="notes" :style="{ marginRight: 'auto' }">{{ item.notes }}</span>
                         <span> ￥{{ item.amount }}</span>
@@ -125,11 +123,6 @@ export default class Statistics extends Vue {
         if (now.getFullYear() === y && now.getMonth() === m && now.getDate() === dd) {
             return '今天'
         } return string */
-    }
-
-
-    showType(type: string) {
-        return type === '-' ? '共支出：' : '共收入：'
     }
 
 }
