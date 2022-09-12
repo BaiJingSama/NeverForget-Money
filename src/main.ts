@@ -6,6 +6,9 @@ import store from "./store";
 import Nav from "@/components/Nav.vue";
 import Layout from "@/components/Layout.vue";
 import Icon from "@/components/Icon.vue";
+import * as echarts from "echarts";
+Vue.prototype.$echarts = echarts;
+
 
 Vue.config.productionTip = false;
 
@@ -36,5 +39,3 @@ if (document.documentElement.clientWidth >= 500) {
   image.style.boxShadow = "0 0 10px rgba(0,0,0,.25)";
   document.body.appendChild(image);
 }
-
-console.log(document.documentElement.clientWidth);

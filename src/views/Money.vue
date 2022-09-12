@@ -59,7 +59,6 @@ export default class Money extends Vue {
             return window.alert('请至少选择一个标签')
 
         }
-        console.log(this.record);
         this.$store.commit('createRecord', this.record)
         if (this.$store.state.createRecordError === null) {
             window.alert('记账成功')
