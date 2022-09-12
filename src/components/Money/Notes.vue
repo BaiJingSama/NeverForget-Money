@@ -1,15 +1,23 @@
 <template>
     <div>
         <label class="notes">
-
             <span class="name">{{ fieldName }}</span>
-            <input type="text" :value="value" @input="onValueChanged($event.target.value)" :placeholder="placeholder">
+            <template v-if="type === 'date'">
+                <input :type="type || 'text'" :value="x(value)" @input="onValueChanged($event.target.value)"
+                    :placeholder="placeholder">
+            </template>
+            <template v-else>
+                <input :type="type || 'text'" :value="value" @input="onValueChanged($event.target.value)"
+                    :placeholder="placeholder">
+            </template>
+
             <!-- :value="value" @input="oninput" 可以简化成v-model -->
         </label>
     </div>
-</template>
+</template> 
 
 <script lang="ts">
+import dayjs from 'dayjs';
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
 
@@ -19,9 +27,14 @@ export default class Notes extends Vue {
 
     @Prop({ required: true }) fieldName!: string
     @Prop(String) placeholder?: string
+    @Prop(String) type?: string
 
     onValueChanged(value: string) {
         this.$emit('update:value', value)
+    }
+
+    x(isoString: string) {
+        return dayjs(isoString).format('YYYY-MM-DD')
     }
 }
 </script>
@@ -34,7 +47,7 @@ export default class Notes extends Vue {
     padding-left: 16px;
     display: flex;
     align-items: center;
-    
+
 
     .name {
         padding-right: 16px;

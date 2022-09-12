@@ -3,7 +3,7 @@
         <Tabs class-prefix="type" :data-source="typeList" :value.sync="type" />
         <ol v-if="groupedList.length > 0">
             <li v-for="(group, index) in groupedList" :key="index">
-                <h3 class="title">{{ beautify(group.title) }}
+                <h3 class="title"> {{ beautify(group.title) }}
                     <span class="title-text"> ￥{{ group.total }}</span>
                 </h3>
                 <ol>
