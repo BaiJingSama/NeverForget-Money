@@ -9,12 +9,12 @@ import Icon from "@/components/Icon.vue";
 import * as echarts from "echarts";
 Vue.prototype.$echarts = echarts;
 
-
 Vue.config.productionTip = false;
 
 Vue.component("Nav", Nav);
 Vue.component("Layout", Layout);
 Vue.component("Icon", Icon);
+
 
 new Vue({
   router,
