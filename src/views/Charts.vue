@@ -1,7 +1,9 @@
 <template>
   <div>
     <Layout>
-      <Chart :options="x"></Chart>
+      <div class="chart-wrapper" ref="chartWrapper">
+        <Chart class="chart" :options="x"></Chart>
+      </div>
     </Layout>
   </div>
 </template>
@@ -16,6 +18,11 @@ import Chart from '@/components/Chart.vue'
 })
 
 export default class Charts extends Vue {
+
+  mounted() {
+    const div = (this.$refs.chartWrapper as HTMLDivElement)
+    div.scrollLeft = div.scrollWidth
+  }
 
   getDay(day: number) {
     let days: string[] = []
@@ -34,18 +41,37 @@ export default class Charts extends Vue {
   }
 
   x = {
+    grid: {
+      left: 0,
+      right: 0,
+      top: 6,
+      bottom: 18,
+      height: 200
+    },
     tooltip: {
       show: true,
+      formatter: '{c}',
     },
     xAxis: {
       type: 'category',
-      data: this.getDay(31)
+      data: this.getDay(31),
+      axisTick: {
+        alignWithLabel: true
+      },
+      axisLine: { lineStyle: { color: '#666' } }
     },
     yAxis: {
+      show: false,
       type: 'value'
     },
     series: [
       {
+        symbolSize: 15,
+        itemStyle: {
+          borderWidth: 30,
+          radius: 10,
+          color: 'skyblue'
+        },
         data: this.getData(31),
         type: 'line'
       }
@@ -56,4 +82,15 @@ export default class Charts extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.chart {
+  width: 430%;
+
+  &-wrapper {
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
 </style>

@@ -10,7 +10,6 @@ import * as echarts from 'echarts';
 import { EChartsOption } from "echarts";
 
 
-Vue.prototype.$echarts = echarts;
 
 @Component
 export default class Chart extends Vue {
