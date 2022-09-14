@@ -1,31 +1,32 @@
 <template>
-  <div class="CreateTags">
-    <div class="title">
-      <router-link to="/money">
-        <icon name="left" class="title-icon"></icon>
-      </router-link>
-      <span class="title-left">添加支出类别</span>
-      <span class="title-width" @click=createTags()>完成</span>
-    </div>
-    <div class="selected">
-      <span class="selected-left">选中标签：</span>
-      <span class="selected-right">{{ now }}</span>
-    </div>
-    <div class="tagListBox">
-      <div class="tagList" v-for="obj in tagList" :key="obj.title">
-        <div class="tagList-title">{{ obj.title }}</div>
-        <ul class="tagList-ul">
-          <li v-for="tag in obj.tags" :key="tag.name" class="tagList-li" @click="selectorTag(tag)">
-            <div class="iconBox" :class="{ selector: selectorClass === tag.name }">
-              <icon :name="tag.name"></icon>
-            </div>
-            <span class="tagBox">{{ tag.value }}</span>
-          </li>
-        </ul>
+  <layout>
+    <div class="CreateTags">
+      <div class="title">
+        <router-link to="/money">
+          <icon name="left" class="title-icon"></icon>
+        </router-link>
+        <span class="title-left">添加支出类别</span>
+        <span class="title-width" @click=createTags()>完成</span>
+      </div>
+      <div class="selected">
+        <span class="selected-left">选中标签：</span>
+        <span class="selected-right">{{ now }}</span>
+      </div>
+      <div class="tagListBox">
+        <div class="tagList" v-for="obj in tagList" :key="obj.title">
+          <div class="tagList-title">{{ obj.title }}</div>
+          <ul class="tagList-ul">
+            <li v-for="tag in obj.tags" :key="tag.name" class="tagList-li" @click="selectorTag(tag)">
+              <div class="iconBox" :class="{ selector: selectorClass === tag.name }">
+                <icon :name="tag.name"></icon>
+              </div>
+              <span class="tagBox">{{ tag.value }}</span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-
-  </div>
+  </layout>
 </template>
 
 <script lang="ts">
@@ -41,6 +42,7 @@ export default class CreateTags extends Vue {
   selectorClass: string | undefined = ''
 
   selector = {}
+
   now: string | undefined = '未选中标签'
 
   selectorTag(tag: { name?: string; value?: string; }) {
@@ -51,7 +53,13 @@ export default class CreateTags extends Vue {
 
 
   createTags() {
-    this.$store.commit('addTag', this.selector)
+    if (this.now === '未选中标签') {
+      window.alert('请选择标签后再点击完成')
+      return
+    } else {
+      this.$store.commit('addTag', this.selector)
+      
+    }
   }
 }
 </script>

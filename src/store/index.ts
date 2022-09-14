@@ -48,6 +48,14 @@ const store = new Vuex.Store({
       state.newTagList = JSON.parse(
         window.localStorage.getItem("newTagList") || "[]"
       );
+      if (state.newTagList.length === 0) {
+        const food = { name: "food", value: "餐饮" };
+        const shopping = { name: "shopping", value: "购物" };
+        const transportation = { name: "transportation", value: "交通" };
+        const house = { name: "house", value: "居住" };
+        state.newTagList.push(food, shopping, transportation, house);
+        store.commit("saveTags");
+      }
     },
     createTag(state, name: string) {
       const names = state.tagList.map((item) => item.name);
@@ -83,15 +91,16 @@ const store = new Vuex.Store({
         }
       }
     },
-    removeTag(state, id: string) {
+
+    removeTag(state, name: string) {
       let index = -1;
       for (let i = 0; i < state.tagList.length; i++) {
-        if (state.tagList[i].id === id) {
+        if (state.newTagList[i].name === name) {
           index = i;
           break;
         }
       }
-      state.tagList.splice(index, 1);
+      state.newTagList.splice(index, 1);
       store.commit("saveTags");
       window.alert("删除成功，回到标签页");
     },

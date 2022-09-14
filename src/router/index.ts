@@ -33,7 +33,7 @@ const routes: Array<RouteConfig> = [
     component: Charts,
   },
   {
-    path: "/createTags",
+    path: "/createtags",
     component: CreateTags,
   },
   {

@@ -1,22 +1,29 @@
 <template>
     <Layout>
         <Tabs class-prefix="type" :data-source="typeList" :value.sync="type" />
-        <ol v-if="groupedList.length > 0">
-            <li v-for="(group, index) in groupedList" :key="index">
-                <h3 class="title"> {{ beautify(group.title) }}
-                    <span class="title-text"> ￥{{ group.total }}</span>
-                </h3>
-                <ol>
-                    <li class="record" v-for="item in group.items" :key="item.createdAt">
-                        <span>{{ tagString(item.newTag) }}</span>
-                        <span class="notes" :style="{ marginRight: 'auto' }">{{ item.notes }}</span>
-                        <span> ￥{{ item.amount }}</span>
+        <div class="bottom-box">
+            <div class="chart-wrapper" ref="chartWrapper">
+                <Chart class="chart" :options="chartOptions"></Chart>
+            </div>
+            <div>
+                <ol v-if="groupedList.length > 0">
+                    <li v-for="(group, index) in groupedList" :key="index">
+                        <h3 class="title"> {{ beautify(group.title) }}
+                            <span class="title-text"> ￥{{ group.total }}</span>
+                        </h3>
+                        <ol>
+                            <li class="record" v-for="item in group.items" :key="item.id">
+                                <span>{{ tagString(item.newTag) }}</span>
+                                <span class="notes" :style="{ marginRight: 'auto' }">{{ item.notes }}</span>
+                                <span> ￥{{ item.amount }}</span>
+                            </li>
+                        </ol>
                     </li>
                 </ol>
-            </li>
-        </ol>
-        <div v-else class="noResult">
-            目前没有相关记录
+                <div v-else class="noResult">
+                    目前没有相关记录
+                </div>
+            </div>
         </div>
     </Layout>
 </template>
@@ -28,6 +35,8 @@ import Tabs from '../components/Tabs.vue'
 import typeList from '@/constants/typeList'
 import dayjs from 'dayjs'
 import clone from '@/lib/clone'
+import _ from 'lodash'
+import Chart from '@/components/Chart.vue'
 
 
 type Tag = {
@@ -49,15 +58,21 @@ type RootState = {
 
 @Component({
     components: {
-        Tabs
+        Tabs, Chart
     }
 })
 export default class Statistics extends Vue {
     type = '-'
     typeList = typeList
+    x = 1
+
 
     beforeCreate() {
         this.$store.commit('fetchRecords')
+    }
+    mounted() {
+        const div = (this.$refs.chartWrapper as HTMLDivElement)
+        div.scrollLeft = div.scrollWidth
     }
 
     get recordList() {
@@ -92,6 +107,85 @@ export default class Statistics extends Vue {
         })
         return result
     }
+
+    get chartOptions() {
+
+        const keys = this.keyValueList.map(item => item.date)
+        const values = this.keyValueList.map(item => item.value)
+
+        return {
+            grid: {
+                top: 25,
+                left: 0,
+                right: 0,
+                height: 220
+            },
+            tooltip: {
+                show: true,
+                formatter: '{c}元',
+
+            },
+            xAxis: {
+                type: 'category',
+                data: keys,
+                axisTick: {
+                    alignWithLabel: true
+                },
+                axisLine: { lineStyle: { color: '#666' } },
+                axisLabel: {
+                    formatter: function (value: string, index: number) {
+                        return value.substr(5)
+                    }
+                }
+            },
+            yAxis: {
+                axisLabel: {
+                    show: false,
+                    interval: 4
+                },
+                type: 'value'
+            },
+            series: [
+                {
+                    symbolSize: 15,
+                    itemStyle: {
+                        borderWidth: 30,
+                        radius: 10,
+                        color: 'skyblue'
+                    },
+                    data: values,
+                    type: 'line'
+                }
+            ],
+        }
+    }
+
+    get keyValueList() {
+        const today = new Date()
+        const array = []
+        for (let i = 0; i <= 29; i++) {
+            const dateString = dayjs(today).subtract(i, 'day').format('YYYY-MM-DD')
+            const found = _.find(this.groupedList, { title: dateString })
+            const items = found?.items
+            array.push({
+                date: dateString, value: found ? found.total : 0, items: found ? items : undefined
+            })
+        }
+
+        array.sort((a, b) => {
+            if (a.date > b.date) {
+                return 1
+            } else if (a.date === b.date) {
+                return 0
+            } else {
+                return -1
+            }
+        })
+        console.log(array);
+
+        return array
+    }
+
 
     // eslint-disable-next-line no-undef
     tagString(tags: newTag[]) {
@@ -130,6 +224,24 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.bottom-box {
+    overflow: auto;
+}
+
+.chart {
+    width: 430%;
+    height: 38vh;
+
+    &-wrapper {
+        overflow: auto;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+}
+
 .noResult {
     padding: 16px;
     padding-top: 32px;

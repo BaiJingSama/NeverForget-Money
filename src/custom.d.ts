@@ -7,6 +7,7 @@ type RootState = {
 };
 
 type RecordItem = {
+  id: () => number;
   tags: Tag[];
   newTag: newTag[];
   notes: string;
@@ -33,6 +34,12 @@ type TagListModel = {
   remove: (id: string) => boolean;
   save: () => void;
 };
+
+type groupList = {
+  title: string;
+  total?: number;
+  items: RecordItem[];
+}[];
 
 /* interface Window {
   store: {

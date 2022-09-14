@@ -8,7 +8,7 @@
             <div class="notes-bar">
                 <Notes :value.sync="record.notes" field-name="备注" placeholder="请输入内容" />
             </div>
-            <Tags :value.sync="record.newTag" :type="record.type" />
+            <Tags :value.sync="record.newTag" :type="record.type" :selectedTags="record.newTag" />
             <Tabs :data-source="typeList" :value.sync=record.type class-prefix="forget" />
         </layout>
     </div>
@@ -22,7 +22,7 @@ import Notes from '@/components/Money/Notes.vue'
 import { Component } from 'vue-property-decorator'
 import Tabs from '../components/Tabs.vue'
 import typeList from '@/constants/typeList'
-
+import createId from '@/lib/createId'
 
 @Component({
     components: { Tags, NumberPad, Notes, Tabs },
@@ -30,6 +30,7 @@ import typeList from '@/constants/typeList'
 
 export default class Money extends Vue {
     record: RecordItem = {
+        id: createId,
         tags: [],
         newTag: [],
         notes: '',
@@ -54,16 +55,17 @@ export default class Money extends Vue {
         this.record.notes = value;
     }
 
+
     saveRecord() {
         if (!this.record.newTag || this.record.newTag.length === 0) {
             return window.alert('请至少选择一个标签')
-
         }
         this.$store.commit('createRecord', this.record)
+        this.record.notes = '';
+        this.record.newTag = [];
         if (this.$store.state.createRecordError === null) {
             window.alert('记账成功')
-            this.record.notes = '';
-            this.record.newTag = [];
+            console.log(this.record.newTag);
         }
 
     }

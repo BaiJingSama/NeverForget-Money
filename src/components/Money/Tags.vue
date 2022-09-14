@@ -11,20 +11,20 @@
                 <span class="tagBox" :class="{ selector: selectedTags.indexOf(tag) >= 0 }">{{ tag.value }}</span>
             </li>
             <li>
-                <router-link class="router" to="/createTags">
+                <router-link class="router" to="/labels">
                     <div class="iconBox">
                         <icon name="set"></icon>
                     </div>
-                    <span class="tagBox">标签管理</span>
+                    <span class="tagBox">删除标签</span>
                 </router-link>
             </li>
         </ul>
         <ul v-else class="current">
-            <li v-for="tag in incomeList" :key="tag.name" @click="toggle(tag)">
-                <div class="iconBox" :class="{ selector: selectedTags.indexOf(tag) >= 0 }">
+            <li v-for="tag in incomeList" :key="tag.name" @click="toggle(tag.name)">
+                <div class="iconBox" :class="{ selector: selectedTags.indexOf(tag.name) >= 0 }">
                     <icon :name="tag.name"></icon>
                 </div>
-                <span class="tagBox" :class="{ selector: selectedTags.indexOf(tag) >= 0 }">{{ tag.value }}</span>
+                <span class="tagBox" :class="{ selector: selectedTags.indexOf(tag.name) >= 0 }">{{ tag.value }}</span>
             </li>
         </ul>
     </div>
@@ -47,7 +47,8 @@ export default class Tags extends Vue {
 
 
     @Prop(String) type?: string = '-'
-    selectedTags: string[] = []
+
+    @Prop(Array) selectedTags!: string[]
 
     created() {
         this.$store.commit('fetchTags')
@@ -56,6 +57,8 @@ export default class Tags extends Vue {
     get newTagList() {
         return this.$store.state.newTagList
     }
+
+
 
     toggle(tag: string) {
         const index = this.selectedTags.indexOf(tag)
@@ -67,8 +70,6 @@ export default class Tags extends Vue {
         }
         this.$emit('update:value', this.selectedTags)
     }
-
-
 
 }
 
@@ -147,14 +148,14 @@ export default class Tags extends Vue {
                     // line-height: 40px; // padding: 8px 0;
                     font-size: 40px;
                     text-align: center;
-                    color: #6da4ca;
+                    color: #999;
                 }
 
                 >.tagBox {
                     padding: 8px 0;
                     text-align: center;
                     font-size: 16px;
-                    color: #6da4ca;
+                    color: #999;
                 }
             }
         }
